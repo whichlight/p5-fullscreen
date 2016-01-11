@@ -1,8 +1,10 @@
 //touch interaction var
-var i = {x:0, y:0};
+var m = {x:0, y:0};
+
 
 function setup() {
-  createCanvas(windowWidth,windowHeight);
+  createCanvas(windowWidth, windowHeight);
+  grow = windowHeight;
   background(0);
 
 
@@ -13,6 +15,10 @@ function setup() {
   el.addEventListener("touchcancel", pdefault, false);
   el.addEventListener("touchleave", pdefault, false);
   el.addEventListener("touchmove", pdefault, false);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
 
 function pdefault(e){
@@ -26,21 +32,25 @@ function draw() {
 
 function update(){
   //normalize interaction
-  i.x = max(touchX, mouseX);
-  i.y = max(touchY, mouseY);
-
+  m.x = max(touchX, mouseX);
+  m.y = max(touchY, mouseY);
+  m.pressed = mouseIsPressed || touchIsDown;
 
 }
 
 function render(){
-  background(0);
-  stroke(255);
-  strokeWeight(10);
-  line(i.x, 0, i.x, height);
+  if(m.pressed){
+    background(0);
+    stroke(255);
+    strokeWeight(10);
 
-  stroke(255);
-  strokeWeight(10);
-  line(0, i.y, width, i.y);
+    for(var i=0; i<windowWidth/20; i+=1){
+      // line(i, 0, i, windowHeight);
+      strokeWeight(10);
+      stroke(255);
+      line(20*i, windowHeight, m.x,m.y);
+    }
+  }
 }
 
 
